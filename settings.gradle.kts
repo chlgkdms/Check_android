@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Check"
 include(":app")
- 
+include(":feature")
+include(":core")
