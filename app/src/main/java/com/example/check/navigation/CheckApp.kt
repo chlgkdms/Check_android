@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.check.feature.onboarding.OnBoardingScreen
+import com.example.check.feature.signin.SignInScreen
+import com.example.check.feature.signup.SignUpScreen
 import com.example.check.feature.splash.SplashScreen
 
 @Composable
@@ -31,15 +33,23 @@ private fun NavGraphBuilder.auth(navController: NavController) {
         }
 
         composable(route = NavigationRoute.Auth.ON_BOARDING) {
-            OnBoardingScreen(navController = navController)
+            OnBoardingScreen(
+                navController = navController,
+                navigateToSignUp = { navController.navigate(NavigationRoute.Auth.SIGN_UP) },
+                navigateToSignIn = { navController.navigate(NavigationRoute.Auth.SIGN_IN) },
+            )
         }
 
-        /*composable(route = NavigationRoute.Auth.SIGN_IN) {
-
+        composable(route = NavigationRoute.Auth.SIGN_IN) {
+            SignInScreen(
+                navController = navController,
+                navigateToSignUp = {},
+                navigateToMain = {},
+            )
         }
 
         composable(route = NavigationRoute.Auth.SIGN_UP) {
-
-        }*/
+            SignUpScreen(navController = navController)
+        }
     }
 }
