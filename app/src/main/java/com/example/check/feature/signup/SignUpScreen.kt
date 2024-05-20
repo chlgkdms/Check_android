@@ -28,7 +28,10 @@ import com.example.check.designsystem.textfield.CheckTextField
 import com.example.check.feature.onboarding.CheckButton
 
 @Composable
-internal fun SignUpScreen(navController: NavController) {
+internal fun SignUpScreen(
+    navController: NavController,
+    navigateToSignIn: () -> Unit,
+) {
 
     val (nickname, onNicknameChange) = remember {
         mutableStateOf("")
@@ -99,19 +102,19 @@ internal fun SignUpScreen(navController: NavController) {
             Spacer(modifier = Modifier.weight(1f))
             CheckButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { /**/ },
-                text = "로그인",
+                onClick = navigateToSignIn,
+                text = "회원가입",
             )
             Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                Body(text = "가입되어 있지 않다면,")
+                Body(text = "가입되어 있다면,")
                 Spacer(modifier = Modifier.width(6.dp))
                 Body(
-                    modifier = Modifier.clickable { /**/ },
-                    text = "회원가입",
+                    modifier = Modifier.clickable { navigateToSignIn() },
+                    text = "로그인",
                     color = Color(0xFF67BAF5),
                 )
             }
