@@ -16,10 +16,10 @@ import com.example.check.feature.splash.SplashScreen
 internal fun CheckApp() {
     val navController = rememberNavController()
     NavHost(
-        navController = navController,
-        startDestination = NavigationRoute.Auth.route
+        navController = navController, startDestination = NavigationRoute.Auth.route
     ) {
         auth(navController = navController)
+        main(navController = navController)
     }
 }
 
@@ -44,12 +44,27 @@ private fun NavGraphBuilder.auth(navController: NavController) {
             SignInScreen(
                 navController = navController,
                 navigateToSignUp = {},
-                navigateToMain = {},
+                navigateToMain = {
+                    navController.navigate(NavigationRoute.Main.MAIN) {
+                        popUpTo(0)
+                    }
+                },
             )
         }
 
         composable(route = NavigationRoute.Auth.SIGN_UP) {
-            SignUpScreen(navController = navController)
+            SignUpScreen(navController = navController,
+                navigateToSignIn = { navController.navigate(NavigationRoute.Auth.SIGN_IN) })
+        }
+    }
+}
+
+private fun NavGraphBuilder.main(navController: NavController) {
+    navigation(
+        route = NavigationRoute.Main.route, startDestination = NavigationRoute.Main.MAIN
+    ) {
+        composable(route = NavigationRoute.Main.MAIN) {
+            RootScreen(navController = navController)
         }
     }
 }
