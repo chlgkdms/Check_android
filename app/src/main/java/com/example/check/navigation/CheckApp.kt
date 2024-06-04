@@ -3,14 +3,17 @@ package com.example.check.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.check.feature.onboarding.OnBoardingScreen
 import com.example.check.feature.signin.SignInScreen
 import com.example.check.feature.signup.SignUpScreen
 import com.example.check.feature.splash.SplashScreen
+import com.example.check.feature.subjectdetail.SubjectDetail
 
 @Composable
 internal fun CheckApp() {
@@ -65,6 +68,21 @@ private fun NavGraphBuilder.main(navController: NavController) {
     ) {
         composable(route = NavigationRoute.Main.MAIN) {
             RootScreen(navController = navController)
+        }
+
+        composable(
+            route = "${NavigationRoute.Main.SUBJECT_DETAIL}/${NavigationRoute.Arguments.SUBJECT_ID}",
+            arguments = listOf(
+                navArgument(
+                    name = "subject-id",
+                    builder = { type = NavType.LongType },
+                )
+            )
+        ) {
+            val subjectId = it.arguments?.getLong("subject-id") ?: 0L
+            SubjectDetail(
+                navController = navController,
+            )
         }
     }
 }

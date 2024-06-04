@@ -10,6 +10,7 @@ sealed class NavigationRoute(val route: String) {
 
     data object Main : NavigationRoute(route = "/main") {
         val MAIN = "$route/root"
+        val SUBJECT_DETAIL = "$route/subject/details"
     }
 
     data object Auth : NavigationRoute(route = "/auth") {
@@ -17,5 +18,9 @@ sealed class NavigationRoute(val route: String) {
         val SPLASH = "$route/splash"
         val SIGN_IN = "$route/signIn"
         val SIGN_UP = "$route/signUp"
+    }
+
+    data object Arguments {
+        val SUBJECT_ID = "{subject-id}"
     }
 }
