@@ -2,6 +2,7 @@ package com.example.check.feature.signup
 
 import Body
 import SubTitle
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,23 +16,50 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.check.R
 import com.example.check.designsystem.textfield.CheckTextField
 import com.example.check.feature.onboarding.CheckButton
+import com.example.check.navigation.NavigationRoute
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 internal fun SignUpScreen(
     navController: NavController,
     navigateToSignIn: () -> Unit,
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        signUpViewModel.sideEffect.collect {
+            when (it) {
+                is SignUpSideEffect.Success -> {
+                    withContext(Dispatchers.Main) {
+                        navController.navigate(NavigationRoute.Auth.SIGN_IN) {
+                            popUpTo(0)
+                        }
+                    }
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
+
+                is SignUpSideEffect.Failure -> {
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     val (nickname, onNicknameChange) = remember {
         mutableStateOf("")
@@ -102,7 +130,7 @@ internal fun SignUpScreen(
             Spacer(modifier = Modifier.weight(1f))
             CheckButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = navigateToSignIn,
+                onClick = { signUpViewModel.signUp() },
                 text = "회원가입",
             )
             Spacer(modifier = Modifier.height(10.dp))
