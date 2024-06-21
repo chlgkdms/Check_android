@@ -1,6 +1,8 @@
 package com.example.check.data.di
 
 import com.example.check.data.interceptor.AccessTokenInterceptor
+import com.example.check.data.remote.api.SubjectApi
+import com.example.check.data.remote.api.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,9 +11,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
-private const val BASE_URL = ""
+private const val BASE_URL = "http://10.0.2.2:8080/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -50,5 +53,17 @@ object NetworkModule {
             .client(okHttpClient)
             .baseUrl(BASE_URL)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserApi(retrofit: Retrofit): UserApi {
+        return retrofit.create(UserApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSubjectApi(retrofit: Retrofit): SubjectApi {
+        return retrofit.create(SubjectApi::class.java)
     }
 }

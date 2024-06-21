@@ -14,7 +14,7 @@ class AccessTokenInterceptor @Inject constructor(
         val path = request.url.encodedPath
         val ignorePath = listOf(RequestUrl.User.auth)
         if (ignorePath.contains(path)) return chain.proceed(request)
-        if (path.contains(RequestUrl.User.user) && request.method == "POST") return chain.proceed(request)
+        if (path.contains(RequestUrl.User.auth) && request.method == "POST") return chain.proceed(request)
 
         val accessToken = authDataStorage.fetchAccessToken()
         return chain.proceed(
