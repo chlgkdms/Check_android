@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,13 +27,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.check.R
+import com.example.check.designsystem.theme.CheckColor
 
 @Composable
-internal fun ProfileScreen(navController: NavController) {
+internal fun ProfileScreen(
+    navController: NavController,
+) {
     val nickname = "하은"
 
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(CheckColor.White)
+            .padding(horizontal = 16.dp),
     ) {
         Title(
             modifier = Modifier.padding(top = 30.dp),
@@ -70,58 +77,6 @@ internal fun ProfileScreen(navController: NavController) {
             }
         }
         Spacer(modifier = Modifier.height(40.dp))
-        ProfileCard(
-            icon = painterResource(id = R.drawable.ic_check_list),
-            text = "내가 작성한 체크리스트",
-            description = "icon check list",
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        ProfileCard(
-            icon = painterResource(id = R.drawable.ic_saved_checklist),
-            text = "내가 저장한 체크리스트",
-            description = "icon saved checklist",
-        )
-    }
-}
 
-@Composable
-fun ProfileCard(
-    icon: Painter,
-    text: String,
-    description: String,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(52.dp)
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(8.dp),
-            )
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(8.dp)
-            )
-            .padding(vertical = 13.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            modifier = Modifier
-                .padding(
-                    start = 20.dp,
-                    end = 12.dp,
-                )
-                .size(26.dp),
-            painter = icon,
-            contentDescription = description,
-        )
-        BodyLarge(
-            modifier = Modifier.padding(end = 130.dp),
-            text = text,
-        )
-        Icon(
-            imageVector = Icons.Filled.KeyboardArrowRight,
-            contentDescription = "icon arrow right",
-        )
     }
 }
