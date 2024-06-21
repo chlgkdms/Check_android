@@ -1,7 +1,6 @@
 package com.example.check.feature.routine
 
 import Body2
-import BodyLarge
 import BodyLarge2
 import Title
 import androidx.annotation.DrawableRes
@@ -9,6 +8,7 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.check.R
 import com.example.check.designsystem.theme.CheckColor
+import com.example.check.navigation.NavigationRoute
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -89,7 +90,11 @@ internal fun RoutineScreen(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(30.dp))
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    navController.navigate(NavigationRoute.Main.CREATE_ROUTINE)
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End,
         ) {
