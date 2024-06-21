@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,37 +27,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.check.designsystem.theme.CheckColor
 import com.example.check.navigation.NavigationRoute
 
 
-data class Subject(
-    val subjectId: Long,
-    val title: String,
-    val writer: String,
-)
-
-val subjects = mutableListOf(
-    Subject(
-        subjectId = 1,
-        title = "기숙사",
-        writer = "김주원",
-    ),
-    Subject(
-        subjectId = 2,
-        title = "학교",
-        writer = "최하은",
-    ),
-    Subject(
-        subjectId = 3,
-        title = "여행",
-        writer = "홍길동",
-    ),
-)
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-internal fun HomeScreen(navController: NavController) {
+internal fun HomeScreen(
+    navController: NavController,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -72,7 +54,10 @@ internal fun HomeScreen(navController: NavController) {
         },
     ) { _ ->
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(color = CheckColor.White)
+                .padding(horizontal = 16.dp),
         ) {
             Title(
                 modifier = Modifier.padding(top = 30.dp),
@@ -91,13 +76,13 @@ internal fun HomeScreen(navController: NavController) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                items(subjects) {
+                items(homeViewModel.subjects) {
                     SubjectItem(
-                        subjectTitle = it.title,
+                        subjectTitle = it.subjectName,
                         writer = it.writer,
                         onClick = {
                             navController.navigate("${NavigationRoute.Main.SUBJECT_DETAIL}/${it}")
-                        }
+                        },
                     )
                 }
             }
