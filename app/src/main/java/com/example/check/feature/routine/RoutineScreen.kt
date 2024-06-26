@@ -37,13 +37,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.check.R
 import com.example.check.designsystem.theme.CheckColor
 import com.example.check.navigation.NavigationRoute
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-internal fun RoutineScreen(navController: NavController) {
+internal fun RoutineScreen(
+    navHostController: NavHostController,
+    navController: NavController,
+) {
     val coroutineScope = rememberCoroutineScope()
 
     var isInitialized by remember { mutableStateOf(false) }
@@ -66,8 +70,9 @@ internal fun RoutineScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(color = CheckColor.White)
+            .padding(horizontal = 16.dp),
     ) {
         Title(
             modifier = Modifier.padding(top = 30.dp),
