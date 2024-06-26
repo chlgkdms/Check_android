@@ -1,6 +1,7 @@
 package com.example.check.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -9,6 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.example.check.feature.checklist.CreateChecklistScreen
+import com.example.check.feature.createsubject.CreateSubjectScreen
+import com.example.check.feature.home.HomeViewModel
 import com.example.check.feature.onboarding.OnBoardingScreen
 import com.example.check.feature.routine.PostRoutineScreen
 import com.example.check.feature.signin.SignInScreen
@@ -19,11 +23,16 @@ import com.example.check.feature.subjectdetail.SubjectDetailScreen
 @Composable
 internal fun CheckApp() {
     val navController = rememberNavController()
+    val homeViewModel = hiltViewModel<HomeViewModel>()
     NavHost(
-        navController = navController, startDestination = NavigationRoute.Auth.route
+        navController = navController,
+        startDestination = NavigationRoute.Auth.route,
     ) {
         auth(navController = navController)
-        main(navController = navController)
+        main(
+            navController = navController,
+            homeViewModel = homeViewModel,
+        )
     }
 }
 
@@ -63,13 +72,19 @@ private fun NavGraphBuilder.auth(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.main(navController: NavController) {
+private fun NavGraphBuilder.main(
+    navController: NavController,
+    homeViewModel: HomeViewModel,
+) {
     navigation(
         route = NavigationRoute.Main.route,
         startDestination = NavigationRoute.Main.MAIN,
     ) {
         composable(route = NavigationRoute.Main.MAIN) {
-            RootScreen(navController = navController)
+            RootScreen(
+                navController = navController,
+                viewModel = homeViewModel,
+            )
         }
 
         composable(
@@ -85,11 +100,23 @@ private fun NavGraphBuilder.main(navController: NavController) {
             SubjectDetailScreen(
                 navController = navController,
                 subjectId = subjectId,
+                viewModel = homeViewModel,
             )
         }
 
         composable(route = NavigationRoute.Main.CREATE_ROUTINE) {
             PostRoutineScreen(navController)
+        }
+
+        composable(route = NavigationRoute.Main.CREATE_SUBJECT) {
+            CreateSubjectScreen(navController)
+        }
+
+        composable(route = NavigationRoute.Main.CREATE_CHECKLIST) {
+            CreateChecklistScreen(
+                navController,
+                viewModel = homeViewModel,
+            )
         }
     }
 }
