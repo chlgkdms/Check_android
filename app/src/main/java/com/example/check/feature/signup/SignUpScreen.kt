@@ -130,7 +130,13 @@ internal fun SignUpScreen(
             Spacer(modifier = Modifier.weight(1f))
             CheckButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { signUpViewModel.signUp() },
+                onClick = {
+                    signUpViewModel.signUp(
+                        accountId = accountId,
+                        password = password,
+                        nickname = nickname,
+                    )
+                },
                 text = "회원가입",
             )
             Spacer(modifier = Modifier.height(10.dp))

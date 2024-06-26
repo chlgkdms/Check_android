@@ -16,7 +16,11 @@ internal class SignUpViewModel @Inject constructor(
     private val userApi: UserApi,
 ) : BaseViewModel<SignUpState, SignUpSideEffect>(SignUpState.getInitialState()) {
 
-    fun signUp() {
+    fun signUp(
+        accountId: String,
+        password: String,
+        nickname: String,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             with(state.value) {
                 runCatching {
@@ -44,18 +48,6 @@ internal class SignUpViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    internal fun setAccountId(accountId: String) = setState {
-        state.value.copy(accountId = accountId)
-    }
-
-    internal fun setPassword(password: String) = setState {
-        state.value.copy(password = password)
-    }
-
-    internal fun setRepeatPassword(repeatPassword: String) = setState {
-        state.value.copy(repeatPassword = repeatPassword)
     }
 }
 
