@@ -57,7 +57,7 @@ internal fun SignInScreen(
                 }
 
                 is SignInSideEffect.Failure -> {
-                    it.message?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+                    Toast.makeText(context, "로그인에 실패했습니다. 다시 시도해주세요", Toast.LENGTH_SHORT).show()
                 }
             }
         }
