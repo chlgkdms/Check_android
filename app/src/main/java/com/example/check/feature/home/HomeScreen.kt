@@ -23,6 +23,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -37,14 +38,18 @@ import com.example.check.navigation.NavigationRoute
 @Composable
 internal fun HomeScreen(
     navController: NavController,
-    homeViewModel: HomeViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel,
 ) {
+    LaunchedEffect(Unit) {
+        homeViewModel.fetchSubject()
+    }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 containerColor = Color(0xFFB9E6FF),
                 contentColor = Color.White,
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(NavigationRoute.Main.CREATE_SUBJECT) },
             ) {
                 Icon(
                     imageVector = Icons.Filled.Create,
@@ -81,7 +86,7 @@ internal fun HomeScreen(
                         subjectTitle = it.subjectName,
                         writer = it.writer,
                         onClick = {
-                            navController.navigate("${NavigationRoute.Main.SUBJECT_DETAIL}/${it}")
+                            navController.navigate("${NavigationRoute.Main.SUBJECT_DETAIL}/${it.id}")
                         },
                     )
                 }
